@@ -4,7 +4,6 @@ student Name & student number:
 
 Ni Zeng         c3238805 
 Brandon Allen   c3279505 
-Kelsey Baker    c3302479 
 Austin Baxter   c3356468 
 Kyle Beattie    c3303374 
 
