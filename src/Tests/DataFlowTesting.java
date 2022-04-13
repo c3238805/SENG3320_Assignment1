@@ -1,7 +1,8 @@
 package Tests;
 
-import org.junit.jupiter.api.Test;
+import java.math.BigInteger;
 
+import org.junit.jupiter.api.Test;
 /**
  * 
  * Task 3: White-box Testing: Data Flow Testing (18 marks) Consider the
@@ -20,7 +21,14 @@ import org.junit.jupiter.api.Test;
  */
 public class DataFlowTesting {
     @Test
-    public void testdemo() {
+    void gcdTest() {
+        // this test method is to test public BigInteger gcd(BigInteger y)
+
+        BigInteger x = new BigInteger("5454564684456454684646454545");
+        BigInteger y = new BigInteger("4256456484464684864864864864");
+
+        
+
 
     }
 }
