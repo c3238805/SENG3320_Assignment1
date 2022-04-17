@@ -28,7 +28,7 @@ public class DataFlowTesting {
         BigInteger y = new BigInteger("1" );
         BigInteger result = x.add(y);
 
-        assertEquals(2,result);
+        assertEquals(2,x.gcd);
 
 
 

@@ -1194,7 +1194,7 @@ public class BigInteger extends Number implements Comparable<BigInteger>
         }
     }
 
-    public BigInteger gcdadd(BigInteger y)
+    public BigInteger gcd(BigInteger y)
     {
         int xval = ival;
         int yval = y.ival;
