@@ -1,3 +1,4 @@
+package Tests;
 /* gnu.java.math.MPN
       Copyright (C) 1999, 2000, 2001, 2004  Free Software Foundation, Inc.
 

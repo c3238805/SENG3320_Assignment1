@@ -1,3 +1,4 @@
+package Tests;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -1193,7 +1194,7 @@ public class BigInteger extends Number implements Comparable<BigInteger>
         }
     }
 
-    public BigInteger gcd(BigInteger y)
+    public BigInteger gcdadd(BigInteger y)
     {
         int xval = ival;
         int yval = y.ival;

@@ -1,8 +1,7 @@
 package Tests;
 
-import java.math.BigInteger;
-
 import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 /**
  * 
  * Task 3: White-box Testing: Data Flow Testing (18 marks) Consider the
@@ -24,10 +23,13 @@ public class DataFlowTesting {
     void gcdTest() {
         // this test method is to test public BigInteger gcd(BigInteger y)
 
-        BigInteger x = new BigInteger("5454564684456454684646454545");
-        BigInteger y = new BigInteger("4256456484464684864864864864");
-
         
+        BigInteger x = new BigInteger("1");
+        BigInteger y = new BigInteger("1" );
+        BigInteger result = x.add(y);
+
+        assertEquals(2,result);
+
 
 
     }
