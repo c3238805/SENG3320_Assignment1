@@ -18,7 +18,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
  * 
  * 
  */
-public class DataFlowTesting {
+public class DataFlowTesting_gcd {
 
     @Test
     void gcdT1() {
