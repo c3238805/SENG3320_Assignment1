@@ -88,7 +88,7 @@ public class DataFlowTesting {
         // this test method is to test public BigInteger gcd(BigInteger y)
 
         // test case t5: (x = BigInteger(Integer.toString(24), y = BigInteger(Integer.toString(-2147483648)))
-        // x = 24, y = -2147483648
+        // x = 24, y = -2 ^ 31 =-2147483648
         // words == null ,xval != 0, !(y.words == null && xval!=Integer.MIN_VALUE&&yval!=Integer.MIN_VALUE)
         // y.words == null , yval !=0 
 
@@ -120,6 +120,7 @@ public class DataFlowTesting {
         // this test method is to test public BigInteger gcd(BigInteger y)
 
         // test case t7: (x = -2147483648, y =0)
+        // x =-2 ^ 31 = -2147483648
         // words == null ,xval != 0, !(y.words == null && xval!=Integer.MIN_VALUE&&yval!=Integer.MIN_VALUE)
         // y.words == null , yval ==0
 
@@ -135,7 +136,7 @@ public class DataFlowTesting {
         // this test method is to test public BigInteger gcd(BigInteger y)
 
         // test case t8: (x = BigInteger("100000000F", 16), y =BigInteger(Integer.toString(23)))
-        // x= 68719476751 , y =23
+        // x=  = 68719476751 , y =23
         // words != null 
         // y.words == null , yval !=0
 
