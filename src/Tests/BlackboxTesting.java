@@ -148,6 +148,9 @@ public class BlackboxTesting {
                     "g","h","i","j","k","l","m","n","o","p","q","r","s","t","u","v",
                     "w","x","y","z"
                 };
+
+                //whether or not the string starts with a sign
+
                 //[^anycharacters] => if there are any chars other than these in the matcher returns true
                 String regex = "[^";
                 for (int i = 0; i < radix; i++) {
