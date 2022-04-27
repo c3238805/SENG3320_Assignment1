@@ -123,9 +123,9 @@ public class BlackboxTesting {
         //construct a list of strings with possible combinations of their corresponding partitions
         List<String> valueLib = new ArrayList<>();
         String[] startingSymbols = {"+","-",""};
-        String[] illegalSymbols = {"@","&","#","$",""};
+        String[] illegalSymbols = {"$",""};
         //values of different base
-        String[] valuesOfDifferentBases = {"1010111000000000000000","235487390257093487500987","qp429nuv8oseeruiot9438ynbnlunrht984"};
+        String[] valuesOfDifferentBases = {"1010111000000000000000","235487390257093487500987","qp429nuv8oseeruiot943zynbnlunrht984"};
         //construct every possible scenario of value
         for (String startingSymbol : startingSymbols) {
             for (String illegalSymbol : illegalSymbols) {
