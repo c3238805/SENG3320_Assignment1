@@ -53,6 +53,7 @@ public class BlackboxTesting {
         //BigInteger testBigInteger = BigInteger.ZERO;
         for (int signum : signumLib) {
             for (byte[] magnitude : magnitudeLib) {
+
                 /**
                  * if signum is outside acceptable range number 
                  * format exception is thrown
@@ -64,6 +65,7 @@ public class BlackboxTesting {
                         new BigInteger(signum, magnitude);
                     }
                 });
+
                 /**
                  * if byte array is empty or filled with zero values
                  * then the result is zero regardless of sign
@@ -71,7 +73,7 @@ public class BlackboxTesting {
                 if (signum <= 1 && signum >= -1 && magnitude != magnitudeLib[2]) {
                     assertEquals(BigInteger.ZERO, new BigInteger(signum, magnitude));
                 }
-                //testBigInteger = new BigInteger(signum, magnitude);
+
                 /**
                  * signum is zero and byte array contains a non-zero value
                  * a number format exception will be thrown 
@@ -84,11 +86,11 @@ public class BlackboxTesting {
                         }
                     });
                 }
+
                 /**
                  * signum of -1 provides a negative value
                  * and signum  of 1 provides a postive value
                  */
-
                 //create a value with the appropiate magnitude
                 //byte array acts as a number counting in base 256
                 //hence multiple by 256 array length - 1 times
@@ -112,8 +114,8 @@ public class BlackboxTesting {
      * public BigInteger(String value, int radix)
      * equivalence partitions
      * radix range (< 2, inside acceptable range, > 36)
-     * String postive and negitave value indicators (string has '+' on front, string has '+' on front, string has neither on front)
-     * String contain illegal characters (contains illegal character, contains '+' or '-' not at front, does not contain illegal character)
+     * String postive and negitave value indicators (string has '+' on front, string has '-' on front, string has neither on front)
+     * String contain illegal characters (contains illegal character, does not contain illegal character)
      * String contains alpha numeric character above the radix (base) (for example if radix = 16, String cannot contain 'g's but may contain 'f's))
      */
     @Test() // Testing public BigInteger(String val, int radix)
@@ -136,11 +138,20 @@ public class BlackboxTesting {
             }
         }
         
-        //construct a array of integers of integers for boundary cases
+        //construct an array of integers of integers for boundary cases
         int[] radixLib = {1,2,10,36,37};
+
         //execute assertions
         for (int radix : radixLib) {
             for (String value : valueLib) {
+                //whether radix is in range
+                boolean radixInRange = radix > 1 && radix < 37;
+                
+                //whether special chars are present
+                boolean specialCharacterPresent = Pattern.compile("[@&#$]").matcher(value).find();
+
+                //whether or not the string starts with a sign
+                boolean startsWithSign = Pattern.compile("[+-]").matcher(value).find();
 
                 //regex for checking if alpahnumerics are larger than the radix allows
                 String[] alphaNumerics = {
@@ -148,21 +159,43 @@ public class BlackboxTesting {
                     "g","h","i","j","k","l","m","n","o","p","q","r","s","t","u","v",
                     "w","x","y","z"
                 };
-
-                //whether or not the string starts with a sign
-
                 //[^anycharacters] => if there are any chars other than these in the matcher returns true
                 String regex = "[^";
                 for (int i = 0; i < radix; i++) {
-                    if (radix == 37)
+                    if (i == 36)
                         break; 
                     regex += alphaNumerics[i];
                 }
                 regex += "]";
+                
+                //whether or not the strings alphanumerics exceed the radix
+                boolean stringMatchesRadix = true;
+                if(startsWithSign){
+                    if (Pattern.compile(regex).matcher(value.substring(1)
+                    .replace("@", "")
+                    .replace("&", "")
+                    .replace("#", "")
+                    .replace("$", ""))
+                    .find()) {
+                        stringMatchesRadix = false;
+                    }
+                } else {
+                    if (Pattern.compile(regex).matcher(value
+                    .replace("@", "")
+                    .replace("&", "")
+                    .replace("#", "")
+                    .replace("$", ""))
+                    .find()) {
+                        stringMatchesRadix = false;
+                    }
+                }
+
+
+                //tests
 
 
                 //test for radix out of bounds
-                if (radix < 2 || radix > 36) {
+                if (!radixInRange) {
                     assertThrows(NumberFormatException.class, new Executable() {
                         @Override
                         public void execute() throws Throwable {
@@ -171,96 +204,68 @@ public class BlackboxTesting {
                     });
                 }
 
+
                 //test special characters throw exception
-                if (radix >= 2 && radix <= 36 && Pattern.compile("[@&#$]").matcher(value).find()) {
-                    boolean flag = true;
-                    if(Pattern.compile("[+-]").matcher(value).find()){
-                        if (Pattern.compile(regex).matcher(value.substring(1)
-                        .replace("@", "")
-                        .replace("&", "")
-                        .replace("#", "")
-                        .replace("$", ""))
-                        .find()) {
-                            flag = false;
+                if (
+                radixInRange
+                && specialCharacterPresent
+                && stringMatchesRadix
+                ) {                    
+                    //a spec char with chars not exceeding radix 
+                    assertThrows(NumberFormatException.class, new Executable() {
+                        @Override
+                        public void execute() throws Throwable {
+                            new BigInteger(value, radix);
                         }
-                    } else {
-                        if (Pattern.compile(regex).matcher(value
-                        .replace("@", "")
-                        .replace("&", "")
-                        .replace("#", "")
-                        .replace("$", ""))
-                        .find()) {
-                            flag = false;
-                        }
-                    }
-                    if (flag) {
-                        //a spec char with chars not exceeding radix 
-                        assertThrows(NumberFormatException.class, new Executable() {
-                            @Override
-                            public void execute() throws Throwable {
-                                new BigInteger(value, radix);
-                            }
-                        });
-                    }
+                    });
                 }
                 
+
                 //alphanumerics of the value exceed the base defined by radix
                 //ensure no special chars are not in the middle of the value
-                if (radix >= 2 && radix <= 36 && !Pattern.compile("[@&#$]").matcher(value).find()) {
-                    boolean flag = false;
-                    if(Pattern.compile("[+-]").matcher(value).find()){
-                        if (Pattern.compile(regex).matcher(value.substring(1)).find()) {
-                            flag = true;
+                if (
+                radixInRange 
+                && !specialCharacterPresent
+                && !stringMatchesRadix
+                ) {
+                    // no spec chars chars exceed radix
+                    assertThrows(NumberFormatException.class, new Executable() {
+                        @Override
+                        public void execute() throws Throwable {
+                            new BigInteger(value, radix);
                         }
-                    } else {
-                        if (Pattern.compile(regex).matcher(value).find()) {
-                            flag = true;
-                        }
-                    }
-                    if (flag) {
-                        // no spec chars chars exceed radix
-                        assertThrows(NumberFormatException.class, new Executable() {
-                            @Override
-                            public void execute() throws Throwable {
-                                new BigInteger(value, radix);
-                            }
-                        });
-                    }
-                    
+                    });
                 }
 
 
                 //test the result of the values prepended with '+', '-' and ''
-                if (radix >= 2 && radix <= 36 && !Pattern.compile("[@&#$]").matcher(value).find()) {
-                    boolean flag = true;
-                    if(Pattern.compile("[+-]").matcher(value).find()){
-                        if (Pattern.compile(regex).matcher(value.substring(1)).find()) {
-                            flag = false;
-                        }
-                    } else {
-                        if (Pattern.compile(regex).matcher(value).find()) {
-                            flag = false;
-                        }
-                    }
-                    if (flag) {
-                        //no spec char chars do not exceed radix
+                if (
+                radixInRange
+                && !specialCharacterPresent
+                && stringMatchesRadix
+                ) {
+                        //no spec char chars,chars do not exceed radix
                         /*
                         use substring and multiply by neg one to evaluate that
-                        the prepended symbol appropriately affects the result
+                        the prepended symbol appropriately affects the resulting bigInteger
                         */
                         if(Pattern.compile("[+]").matcher(value).find()){
+                            //+
                             assertEquals(new BigInteger(value.substring(1),radix), new BigInteger(value,radix));
                         } else if(Pattern.compile("[-]").matcher(value).find()){
+                            //-
                             assertEquals(new BigInteger(value.substring(1),radix).multiply(new BigInteger("-1")), new BigInteger(value,radix));
                         } else {
-
+                            //no + or -
+                            //equals the same as a prepended '+'
+                            assertEquals(new BigInteger("+" + value,radix), new BigInteger(value,radix));
+                            //equal the negative of a prepended '-'
+                            assertEquals(new BigInteger("-" + value,radix), new BigInteger(value,radix).multiply(new BigInteger("-1")));
+                            //should there be another way to test this partition here
                         }
-                    }
                 }
             }
         }
-        //System.out.println(Pattern.compile("[^01]").matcher("+102").find());
-        System.out.println(Pattern.compile("[+-]").matcher("10").find());
     }
 
 
