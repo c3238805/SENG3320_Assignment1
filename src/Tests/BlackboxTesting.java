@@ -7,7 +7,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Pattern;
 
-
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.function.Executable;
 /**
@@ -243,25 +242,25 @@ public class BlackboxTesting {
                 && !specialCharacterPresent
                 && stringMatchesRadix
                 ) {
-                        //no spec char chars,chars do not exceed radix
-                        /*
-                        use substring and multiply by neg one to evaluate that
-                        the prepended symbol appropriately affects the resulting bigInteger
-                        */
-                        if(Pattern.compile("[+]").matcher(value).find()){
-                            //+
-                            assertEquals(new BigInteger(value.substring(1),radix), new BigInteger(value,radix));
-                        } else if(Pattern.compile("[-]").matcher(value).find()){
-                            //-
-                            assertEquals(new BigInteger(value.substring(1),radix).multiply(new BigInteger("-1")), new BigInteger(value,radix));
-                        } else {
-                            //no + or -
-                            //equals the same as a prepended '+'
-                            assertEquals(new BigInteger("+" + value,radix), new BigInteger(value,radix));
-                            //equal the negative of a prepended '-'
-                            assertEquals(new BigInteger("-" + value,radix), new BigInteger(value,radix).multiply(new BigInteger("-1")));
-                            //should there be another way to test this partition here
-                        }
+                    //no spec char chars,chars do not exceed radix
+                    /*
+                    use substring and multiply by neg one to evaluate that
+                    the prepended symbol appropriately affects the resulting bigInteger
+                    */
+                    if(Pattern.compile("[+]").matcher(value).find()){
+                        //+
+                        assertEquals(new BigInteger(value.substring(1),radix), new BigInteger(value,radix));
+                    } else if(Pattern.compile("[-]").matcher(value).find()){
+                        //-
+                        assertEquals(new BigInteger(value.substring(1),radix).multiply(new BigInteger("-1")), new BigInteger(value,radix));
+                    } else {
+                        //no + or -
+                        //equals the same as a prepended '+'
+                        assertEquals(new BigInteger("+" + value,radix), new BigInteger(value,radix));
+                        //equal the negative of a prepended '-'
+                        assertEquals(new BigInteger("-" + value,radix), new BigInteger(value,radix).multiply(new BigInteger("-1")));
+                        //should there be another way to test this partition here
+                    }
                 }
             }
         }
