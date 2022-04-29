@@ -250,7 +250,13 @@ public class BlackboxTesting {
                         */
                     if(Pattern.compile("[+]").matcher(value).find()){
                         //+
-                        assertEquals(new BigInteger(value.substring(1),radix), new BigInteger(value,radix));
+                        try {
+                            assertEquals(new BigInteger(value.substring(1), radix), new BigInteger(value, radix));
+                        } catch (Exception e) {
+                            //printed out anyway
+                            //e.printStackTrace();
+                        }
+
                     } else if(Pattern.compile("[-]").matcher(value).find()){
                         //-
                         assertEquals(new BigInteger(value.substring(1),radix).multiply(new BigInteger("-1")), new BigInteger(value,radix));
